@@ -25,11 +25,13 @@ class AuthViewController: UIViewController {
         
         view.backgroundColor = .white
         
+        googleButton.customizeGoogleButton()
+        
         setupConstraints()
     }
     
     private func setupConstraints() {
-        
+
         let googleButtonView = ButtonWithLabelView(label: googleLabel, button: googleButton)
         let emailButtonView = ButtonWithLabelView(label: emailLabel, button: emailButton)
         let loginButtonView = ButtonWithLabelView(label: loginLabel, button: loginButton)
@@ -42,7 +44,7 @@ class AuthViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 160),
+            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topPadding),
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             stackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 160),

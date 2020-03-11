@@ -27,7 +27,7 @@ class SignUpViewController: UIViewController {
     
     private let alreadyOnboardLabel = UILabel(text: "Already on board?")
     private let loginButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
         button.setTitleColor(.redColor, for: .normal)
         button.titleLabel?.font = .avenirFont()
@@ -62,10 +62,10 @@ class SignUpViewController: UIViewController {
         view.addSubview(footerStackView)
         
         NSLayoutConstraint.activate([
-            greetingLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            greetingLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topPadding),
             greetingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            stackView.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 160),
+            stackView.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 100),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.padding),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.padding),
             signUpButton.heightAnchor.constraint(equalToConstant: Constants.buttonHeight),

@@ -27,7 +27,7 @@ class LoginViewController: UIViewController {
     
     private let needAnAccountLabel = UILabel(text: "Need an account?")
     private let signUpButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("Sign up", for: .normal)
         button.setTitleColor(.redColor, for: .normal)
         button.titleLabel?.font = .avenirFont()
@@ -39,6 +39,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        
+        googleButton.customizeGoogleButton()
         
         setupConstraints()
     }
@@ -62,7 +64,7 @@ class LoginViewController: UIViewController {
         view.addSubview(footerStackView)
         
         NSLayoutConstraint.activate([
-            greetingLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            greetingLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topPadding),
             greetingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             stackView.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 100),
