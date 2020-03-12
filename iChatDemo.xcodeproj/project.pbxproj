@@ -33,6 +33,8 @@
 		84FBE935241A8CCC0083C078 /* waitingChats.json in Resources */ = {isa = PBXBuildFile; fileRef = 84FBE933241A8CCC0083C078 /* waitingChats.json */; };
 		84FBE936241A8CCC0083C078 /* activeChats.json in Resources */ = {isa = PBXBuildFile; fileRef = 84FBE934241A8CCC0083C078 /* activeChats.json */; };
 		84FBE938241A93420083C078 /* CollectionViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE937241A93420083C078 /* CollectionViewCellProtocol.swift */; };
+		84FBE93A241ACEE10083C078 /* WaitingChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE939241ACEE10083C078 /* WaitingChatCell.swift */; };
+		84FBE93C241AD3460083C078 /* CollectionViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE93B241AD3460083C078 /* CollectionViewSectionHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +66,8 @@
 		84FBE933241A8CCC0083C078 /* waitingChats.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waitingChats.json; sourceTree = "<group>"; };
 		84FBE934241A8CCC0083C078 /* activeChats.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activeChats.json; sourceTree = "<group>"; };
 		84FBE937241A93420083C078 /* CollectionViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellProtocol.swift; sourceTree = "<group>"; };
+		84FBE939241ACEE10083C078 /* WaitingChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingChatCell.swift; sourceTree = "<group>"; };
+		84FBE93B241AD3460083C078 /* CollectionViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,7 @@
 				842F0F7C241954C4002C2D1A /* MainTabBarController.swift */,
 				842F0F7724195407002C2D1A /* ListViewController.swift */,
 				842F0F7A2419547D002C2D1A /* PeopleViewController.swift */,
+				84FBE93B241AD3460083C078 /* CollectionViewSectionHeader.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -163,6 +168,7 @@
 			children = (
 				84FBE937241A93420083C078 /* CollectionViewCellProtocol.swift */,
 				842F0F84241A8703002C2D1A /* ActiveChatCell.swift */,
+				84FBE939241ACEE10083C078 /* WaitingChatCell.swift */,
 			);
 			path = ChatCell;
 			sourceTree = "<group>";
@@ -250,12 +256,14 @@
 				84FBE938241A93420083C078 /* CollectionViewCellProtocol.swift in Sources */,
 				8416D114241513FA009C6527 /* AppDelegate.swift in Sources */,
 				8416D1362417D8D5009C6527 /* UIStackView + Extension.swift in Sources */,
+				84FBE93C241AD3460083C078 /* CollectionViewSectionHeader.swift in Sources */,
 				8416D1332417B4A3009C6527 /* ButtonWithLabelView.swift in Sources */,
 				8416D12F2417AE32009C6527 /* UILabel + Extension.swift in Sources */,
 				8416D1312417AEC4009C6527 /* UIImageView + Extension.swift in Sources */,
 				8416D14224192876009C6527 /* UserProfilePhotoView.swift in Sources */,
 				842F0F7D241954C4002C2D1A /* MainTabBarController.swift in Sources */,
 				8416D12D2417AAFF009C6527 /* UIColor + Extension.swift in Sources */,
+				84FBE93A241ACEE10083C078 /* WaitingChatCell.swift in Sources */,
 				8416D116241513FA009C6527 /* SceneDelegate.swift in Sources */,
 				8416D13C2418144D009C6527 /* LoginViewController.swift in Sources */,
 				8416D13E24181C29009C6527 /* Constants.swift in Sources */,

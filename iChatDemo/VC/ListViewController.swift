@@ -32,6 +32,15 @@ class ListViewController: UIViewController {
     
     enum CollectionViewSection: Int, CaseIterable {
         case WaitingChats, ActiveChats
+        
+        func description() -> String {
+            switch self {
+            case .WaitingChats:
+                return "Waiting chats"
+            case .ActiveChats:
+                return "Active chats"
+            }
+        }
     }
     
     private var collectionView: UICollectionView!
@@ -64,7 +73,10 @@ class ListViewController: UIViewController {
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout())
         collectionView.register(ActiveChatCell.self, forCellWithReuseIdentifier: ActiveChatCell.id)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell2")
+        collectionView.register(WaitingChatCell.self, forCellWithReuseIdentifier: WaitingChatCell.id)
+        collectionView.register(CollectionViewSectionHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: CollectionViewSectionHeader.reuseId)
 //        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .whiteColor
         
@@ -96,6 +108,11 @@ extension ListViewController {
                 return self.waitingChatsSection()
             }
         }
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 20
+        layout.configuration = config
+        
         return layout
     }
     
@@ -111,6 +128,9 @@ extension ListViewController {
         section.interGroupSpacing = 20
         section.orthogonalScrollingBehavior = .continuous
         
+        let headerSection = createHeaderSection()
+        section.boundarySupplementaryItems = [headerSection]
+        
         return section
     }
     
@@ -125,7 +145,17 @@ extension ListViewController {
         section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 0, trailing: 20)
         section.interGroupSpacing = 20
         
+        let headerSection = createHeaderSection()
+        section.boundarySupplementaryItems = [headerSection]
+        
         return section
+    }
+    
+    private func createHeaderSection() -> NSCollectionLayoutBoundarySupplementaryItem {
+        
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
+        let headerSection = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: size, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        return headerSection
     }
 }
 
@@ -136,16 +166,26 @@ extension ListViewController {
         
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { (collectionView, indexPath, itemData) -> UICollectionViewCell? in
-            guard let section = CollectionViewSection(rawValue: indexPath.section) else { return nil }
+            guard let section = CollectionViewSection(rawValue: indexPath.section) else { fatalError("Unknown section kind") }
             switch section {
             case .WaitingChats:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell2", for: indexPath)
-                cell.backgroundColor = .systemTeal
-                return cell
+                return self.configureCollectionViewCell(WaitingChatCell.self, with: itemData, by: indexPath)
             case .ActiveChats:
                 return self.configureCollectionViewCell(ActiveChatCell.self, with: itemData, by: indexPath)
             }
         })
+        
+        collectionViewDataSource?.supplementaryViewProvider = {
+            (collectionView, kind, indexPath) in
+            
+            guard let headerSection = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionViewSectionHeader.reuseId, for: indexPath) as? CollectionViewSectionHeader else {
+                fatalError("Unknown section")
+            }
+            guard let section = CollectionViewSection(rawValue: indexPath.section) else { fatalError("Unknown section") }
+            headerSection.configure(title: section.description(), font: .laoSangmanFont(), textColor: .systemGray)
+            
+            return headerSection
+        }
     }
     
     private func reloadCollectionViewData() {
