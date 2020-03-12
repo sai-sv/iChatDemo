@@ -8,15 +8,43 @@
 
 import UIKit
 
+// MARK: - CollectionViewModel
+struct ChatModel: Hashable {
+    var username: String
+//    var photo: UIImage?
+    
+    var id = UUID()
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: ChatModel, rhs: ChatModel) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 class ListViewController: UIViewController {
     
+    private let collectionViewModel: [ChatModel] = [ ChatModel(username: "Sergei"),
+                                                     ChatModel(username: "Valeria"),
+                                                     ChatModel(username: "Mila")]
+    
+    enum CollectionViewSection: Int, CaseIterable {
+        case ActiveChats
+    }
+    
     private var collectionView: UICollectionView!
+    private var collectionViewDataSource: UICollectionViewDiffableDataSource<CollectionViewSection, ChatModel>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupSearchBar()
+        
         setupCollectionView()
+        collectionViewItemData()
+        reloadCollectionViewData()
     }
     
     private func setupSearchBar() {
@@ -35,9 +63,7 @@ class ListViewController: UIViewController {
     private func setupCollectionView() {
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout())
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "FlowLayoutCell")
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
 //        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .whiteColor
         
@@ -70,6 +96,28 @@ class ListViewController: UIViewController {
         }
         return layout
     }
+    
+    private func collectionViewItemData() {
+        
+        collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
+                                                                      cellProvider: { (collectionView, indexPath, itemData) -> UICollectionViewCell? in
+            guard let section = CollectionViewSection(rawValue: indexPath.section) else { return nil }
+            switch section {
+            case .ActiveChats:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+                cell.backgroundColor = .systemPink
+                return cell
+            }
+        })
+    }
+    
+    private func reloadCollectionViewData() {
+        var snapshot = NSDiffableDataSourceSnapshot<CollectionViewSection, ChatModel>()
+        snapshot.appendSections([.ActiveChats])
+        snapshot.appendItems(collectionViewModel, toSection: .ActiveChats)
+        
+        collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -78,22 +126,6 @@ extension ListViewController: UISearchBarDelegate {
         print(#function)
     }
 }
-
-// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
-extension ListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FlowLayoutCell", for: indexPath)
-        cell.backgroundColor = .red
-        cell.layer.borderWidth = 1
-        return cell
-    }
-}
-
 
 // MARK: - SwiftUI
 import SwiftUI
