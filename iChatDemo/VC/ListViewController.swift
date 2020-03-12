@@ -63,7 +63,7 @@ class ListViewController: UIViewController {
     private func setupCollectionView() {
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout())
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(ActiveChatCell.self, forCellWithReuseIdentifier: ActiveChatCell.id)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell2")
 //        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .whiteColor
@@ -143,9 +143,7 @@ extension ListViewController {
                 cell.backgroundColor = .systemTeal
                 return cell
             case .ActiveChats:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-                cell.backgroundColor = .systemPink
-                return cell
+                return self.configureCollectionViewCell(ActiveChatCell.self, with: itemData, by: indexPath)
             }
         })
     }
@@ -157,6 +155,12 @@ extension ListViewController {
         snapshot.appendItems(activeChatasModel, toSection: .ActiveChats)
         
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func configureCollectionViewCell<T: CollectionViewCellConfigureProtocol>(_ type: T.Type, with data: ChatModel, by indexPath: IndexPath) -> T {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: type.id, for: indexPath) as? T else { fatalError("Fail") }
+        cell.configure(with: data)
+        return cell
     }
 }
 
