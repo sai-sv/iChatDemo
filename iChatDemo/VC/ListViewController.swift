@@ -8,23 +8,6 @@
 
 import UIKit
 
-// MARK: - CollectionViewModel
-struct ChatModel: Hashable, Decodable {
-    var username: String
-    var userImageString: String
-    var lastMessage: String
-    
-    var id: Int
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func == (lhs: ChatModel, rhs: ChatModel) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
 class ListViewController: UIViewController {
     
     private let activeChatasModel = Bundle.main.decode([ChatModel].self, from: "activeChats.json")

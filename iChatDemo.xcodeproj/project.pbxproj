@@ -35,6 +35,9 @@
 		84FBE938241A93420083C078 /* CollectionViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE937241A93420083C078 /* CollectionViewCellProtocol.swift */; };
 		84FBE93A241ACEE10083C078 /* WaitingChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE939241ACEE10083C078 /* WaitingChatCell.swift */; };
 		84FBE93C241AD3460083C078 /* CollectionViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE93B241AD3460083C078 /* CollectionViewSectionHeader.swift */; };
+		84FBE93E241D7FDA0083C078 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE93D241D7FDA0083C078 /* ChatModel.swift */; };
+		84FBE940241D80030083C078 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE93F241D80030083C078 /* UserModel.swift */; };
+		84FBE943241D8CCF0083C078 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 84FBE942241D8CCF0083C078 /* users.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +71,9 @@
 		84FBE937241A93420083C078 /* CollectionViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellProtocol.swift; sourceTree = "<group>"; };
 		84FBE939241ACEE10083C078 /* WaitingChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingChatCell.swift; sourceTree = "<group>"; };
 		84FBE93B241AD3460083C078 /* CollectionViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionHeader.swift; sourceTree = "<group>"; };
+		84FBE93D241D7FDA0083C078 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		84FBE93F241D80030083C078 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		84FBE942241D8CCF0083C078 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,7 @@
 		8416D1292417A6BE009C6527 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				84FBE942241D8CCF0083C078 /* users.json */,
 				84FBE934241A8CCC0083C078 /* activeChats.json */,
 				84FBE933241A8CCC0083C078 /* waitingChats.json */,
 				8416D1272417A674009C6527 /* UIButton + Extension.swift */,
@@ -155,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				842F0F86241A873E002C2D1A /* ChatCell */,
+				84FBE941241D80320083C078 /* Model */,
 				842F0F7C241954C4002C2D1A /* MainTabBarController.swift */,
 				842F0F7724195407002C2D1A /* ListViewController.swift */,
 				842F0F7A2419547D002C2D1A /* PeopleViewController.swift */,
@@ -171,6 +179,15 @@
 				84FBE939241ACEE10083C078 /* WaitingChatCell.swift */,
 			);
 			path = ChatCell;
+			sourceTree = "<group>";
+		};
+		84FBE941241D80320083C078 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				84FBE93D241D7FDA0083C078 /* ChatModel.swift */,
+				84FBE93F241D80030083C078 /* UserModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +248,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FBE943241D8CCF0083C078 /* users.json in Resources */,
 				84FBE935241A8CCC0083C078 /* waitingChats.json in Resources */,
 				8416D120241513FE009C6527 /* LaunchScreen.storyboard in Resources */,
 				8416D11D241513FE009C6527 /* Assets.xcassets in Resources */,
@@ -260,8 +278,10 @@
 				8416D1332417B4A3009C6527 /* ButtonWithLabelView.swift in Sources */,
 				8416D12F2417AE32009C6527 /* UILabel + Extension.swift in Sources */,
 				8416D1312417AEC4009C6527 /* UIImageView + Extension.swift in Sources */,
+				84FBE93E241D7FDA0083C078 /* ChatModel.swift in Sources */,
 				8416D14224192876009C6527 /* UserProfilePhotoView.swift in Sources */,
 				842F0F7D241954C4002C2D1A /* MainTabBarController.swift in Sources */,
+				84FBE940241D80030083C078 /* UserModel.swift in Sources */,
 				8416D12D2417AAFF009C6527 /* UIColor + Extension.swift in Sources */,
 				84FBE93A241ACEE10083C078 /* WaitingChatCell.swift in Sources */,
 				8416D116241513FA009C6527 /* SceneDelegate.swift in Sources */,

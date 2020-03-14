@@ -18,12 +18,13 @@ class MainTabBarController: UITabBarController {
         let imgConfiguration = UIImage.SymbolConfiguration(weight: .medium)
         
         tabBar.tintColor = #colorLiteral(red: 0.5568627451, green: 0.3529411765, blue: 0.968627451, alpha: 1)
-        viewControllers = [ generateNavigationController(viewController: ListViewController(),
-                                                         title: "Conversation",
-                                                         image: UIImage(systemName: "bubble.left.and.bubble.right", withConfiguration: imgConfiguration)),
-                            generateNavigationController(viewController: PeopleViewController(),
-                                                         title: "People",
-                                                         image: UIImage(systemName: "person.2", withConfiguration: imgConfiguration))
+        viewControllers = [
+            generateNavigationController(viewController: PeopleViewController(),
+            title: "People",
+            image: UIImage(systemName: "person.2", withConfiguration: imgConfiguration)),
+            generateNavigationController(viewController: ListViewController(),
+            title: "Conversation",
+            image: UIImage(systemName: "bubble.left.and.bubble.right", withConfiguration: imgConfiguration))
         ]
     }
     
