@@ -65,13 +65,16 @@ class ActiveChatCell: UICollectionViewCell {
     }
 }
 
-extension ActiveChatCell: CollectionViewCellConfigureProtocol {
+// MARK: - Collection View Cell Protocol
+extension ActiveChatCell: CollectionViewCellProtocol {
     static var id: String = "ActiveChatCell"
     
-    func configure(with data: ChatModel) {
-        photoView.image = UIImage(named: data.userImageString)
-        nameLabel.text = data.username
-        lastMessageLabel.text = data.lastMessage
+    func configure<U: Hashable>(with data: U) {
+        guard let model = data as? ChatModel else { return }
+        
+        photoView.image = UIImage(named: model.userImageString)
+        nameLabel.text = model.username
+        lastMessageLabel.text = model.lastMessage
     }
 }
 

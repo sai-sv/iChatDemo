@@ -152,9 +152,9 @@ extension ListViewController {
             guard let section = CollectionViewSection(rawValue: indexPath.section) else { fatalError("Unknown section kind") }
             switch section {
             case .WaitingChats:
-                return self.configureCollectionViewCell(WaitingChatCell.self, with: itemData, by: indexPath)
+                return self.collectionViewCell(collectionView, type: WaitingChatCell.self, with: itemData, by: indexPath)
             case .ActiveChats:
-                return self.configureCollectionViewCell(ActiveChatCell.self, with: itemData, by: indexPath)
+                return self.collectionViewCell(collectionView, type: ActiveChatCell.self, with: itemData, by: indexPath)
             }
         })
         
@@ -178,12 +178,6 @@ extension ListViewController {
         snapshot.appendItems(activeChatasModel, toSection: .ActiveChats)
         
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
-    }
-    
-    private func configureCollectionViewCell<T: CollectionViewCellConfigureProtocol>(_ type: T.Type, with data: ChatModel, by indexPath: IndexPath) -> T {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: type.id, for: indexPath) as? T else { fatalError("Fail") }
-        cell.configure(with: data)
-        return cell
     }
 }
 

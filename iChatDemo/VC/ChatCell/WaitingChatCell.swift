@@ -40,11 +40,13 @@ class WaitingChatCell: UICollectionViewCell {
     }
 }
 
-extension WaitingChatCell: CollectionViewCellConfigureProtocol {
+// MARK: - Collection View Cell Protocol
+extension WaitingChatCell: CollectionViewCellProtocol {
     static var id = "WaitingChatCell"
     
-    func configure(with data: ChatModel) {
-        photoImageView.image = UIImage(named: data.userImageString)
+    func configure<U: Hashable>(with data: U) {
+        guard let model = data as? ChatModel else { return }
+        photoImageView.image = UIImage(named: model.userImageString)
     }
 }
 

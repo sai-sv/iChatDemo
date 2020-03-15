@@ -38,6 +38,8 @@
 		84FBE93E241D7FDA0083C078 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE93D241D7FDA0083C078 /* ChatModel.swift */; };
 		84FBE940241D80030083C078 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE93F241D80030083C078 /* UserModel.swift */; };
 		84FBE943241D8CCF0083C078 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 84FBE942241D8CCF0083C078 /* users.json */; };
+		84FBE945241E78A10083C078 /* UserChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE944241E78A10083C078 /* UserChatCell.swift */; };
+		84FBE947241E7C9C0083C078 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE946241E7C9C0083C078 /* UIViewController + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +76,8 @@
 		84FBE93D241D7FDA0083C078 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		84FBE93F241D80030083C078 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		84FBE942241D8CCF0083C078 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
+		84FBE944241E78A10083C078 /* UserChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChatCell.swift; sourceTree = "<group>"; };
+		84FBE946241E7C9C0083C078 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,7 @@
 				842F0F792419543F002C2D1A /* VC */,
 				842F0F76241953E1002C2D1A /* Auth & Sign VC */,
 				8416D1342417CFEA009C6527 /* UIKit */,
+				84FBE949241E879E0083C078 /* FakeData */,
 				8416D11C241513FE009C6527 /* Assets.xcassets */,
 				8416D11E241513FE009C6527 /* LaunchScreen.storyboard */,
 				8416D121241513FE009C6527 /* Info.plist */,
@@ -121,9 +126,6 @@
 		8416D1292417A6BE009C6527 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				84FBE942241D8CCF0083C078 /* users.json */,
-				84FBE934241A8CCC0083C078 /* activeChats.json */,
-				84FBE933241A8CCC0083C078 /* waitingChats.json */,
 				8416D1272417A674009C6527 /* UIButton + Extension.swift */,
 				8416D12A2417A9BA009C6527 /* UIFont + Extension.swift */,
 				8416D12C2417AAFF009C6527 /* UIColor + Extension.swift */,
@@ -131,6 +133,7 @@
 				8416D1302417AEC4009C6527 /* UIImageView + Extension.swift */,
 				8416D1352417D8D5009C6527 /* UIStackView + Extension.swift */,
 				842F0F82241A78F9002C2D1A /* Bundle + Extension.swift */,
+				84FBE946241E7C9C0083C078 /* UIViewController + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -163,10 +166,10 @@
 			children = (
 				842F0F86241A873E002C2D1A /* ChatCell */,
 				84FBE941241D80320083C078 /* Model */,
+				84FBE948241E87720083C078 /* Header */,
 				842F0F7C241954C4002C2D1A /* MainTabBarController.swift */,
 				842F0F7724195407002C2D1A /* ListViewController.swift */,
 				842F0F7A2419547D002C2D1A /* PeopleViewController.swift */,
-				84FBE93B241AD3460083C078 /* CollectionViewSectionHeader.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				84FBE937241A93420083C078 /* CollectionViewCellProtocol.swift */,
 				842F0F84241A8703002C2D1A /* ActiveChatCell.swift */,
 				84FBE939241ACEE10083C078 /* WaitingChatCell.swift */,
+				84FBE944241E78A10083C078 /* UserChatCell.swift */,
 			);
 			path = ChatCell;
 			sourceTree = "<group>";
@@ -188,6 +192,24 @@
 				84FBE93F241D80030083C078 /* UserModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		84FBE948241E87720083C078 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				84FBE93B241AD3460083C078 /* CollectionViewSectionHeader.swift */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
+		84FBE949241E879E0083C078 /* FakeData */ = {
+			isa = PBXGroup;
+			children = (
+				84FBE942241D8CCF0083C078 /* users.json */,
+				84FBE934241A8CCC0083C078 /* activeChats.json */,
+				84FBE933241A8CCC0083C078 /* waitingChats.json */,
+			);
+			path = FakeData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,7 +295,9 @@
 				8416D1382417F307009C6527 /* SignUpViewController.swift in Sources */,
 				84FBE938241A93420083C078 /* CollectionViewCellProtocol.swift in Sources */,
 				8416D114241513FA009C6527 /* AppDelegate.swift in Sources */,
+				84FBE947241E7C9C0083C078 /* UIViewController + Extension.swift in Sources */,
 				8416D1362417D8D5009C6527 /* UIStackView + Extension.swift in Sources */,
+				84FBE945241E78A10083C078 /* UserChatCell.swift in Sources */,
 				84FBE93C241AD3460083C078 /* CollectionViewSectionHeader.swift in Sources */,
 				8416D1332417B4A3009C6527 /* ButtonWithLabelView.swift in Sources */,
 				8416D12F2417AE32009C6527 /* UILabel + Extension.swift in Sources */,

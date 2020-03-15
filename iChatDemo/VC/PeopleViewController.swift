@@ -54,7 +54,7 @@ class PeopleViewController: UIViewController {
         collectionView.backgroundColor = .whiteColor
         
         collectionView.register(CollectionViewSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionViewSectionHeader.reuseId)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "reuseid")
+        collectionView.register(UserChatCell.self, forCellWithReuseIdentifier: UserChatCell.id)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -138,9 +138,7 @@ extension PeopleViewController {
             
             switch section {
             case .Users:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "reuseid", for: indexPath)
-                cell.backgroundColor = .systemBlue
-                return cell
+                return self.collectionViewCell(collectionView, type: UserChatCell.self, with: itemData, by: indexPath)
             }
         })
         
@@ -167,7 +165,6 @@ extension PeopleViewController {
         collectionViewDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
-
 // MARK: - SwiftUI
 import SwiftUI
 

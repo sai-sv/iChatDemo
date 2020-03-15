@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CollectionViewCellConfigureProtocol {
+protocol CollectionViewCellProtocol {
     static var id: String { get }
-    func configure(with data: ChatModel)
+    func configure<U: Hashable>(with data: U)
 }
