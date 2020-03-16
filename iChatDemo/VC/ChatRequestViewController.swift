@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  ChatRequestViewController.swift
 //  iChatDemo
 //
 //  Created by Admin on 16.03.2020.
@@ -8,37 +8,45 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ChatRequestViewController: UIViewController {
     
     private var imageView = UIImageView(image: #imageLiteral(resourceName: "human10"), contentMode: .scaleAspectFill)
     private var usernameLabel = UILabel(text: "Ariana Grande", font: .systemFont(ofSize: 20, weight: .medium))
-    private var aboutMeLabel = UILabel(text: "American singer, songwriter and actress", font: .systemFont(ofSize: 16, weight: .light))
-    private var textField = InsertableTextField()
+    private var aboutMeLabel = UILabel(text: "Some text here...", font: .systemFont(ofSize: 16, weight: .light))
+    private var acceptButton = UIButton(title: "ACCEPT", titleColor: .whiteColor, backgroundColor: .blackColor, isShadow: false, cornerRadius: 10)
+    private var denyButton = UIButton(title: "DENY", titleColor: #colorLiteral(red: 0.8352941176, green: 0.2, blue: 0.2, alpha: 1), backgroundColor: .whiteColor, isShadow: false, cornerRadius: 10)
     private var containerView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         aboutMeLabel.numberOfLines = 0
-        containerView.layer.cornerRadius = 30
+        
         containerView.backgroundColor = .whiteColor
+        containerView.layer.cornerRadius = 30
+        
+        denyButton.layer.borderWidth = 1.2
+        denyButton.layer.borderColor = #colorLiteral(red: 0.8352941176, green: 0.2, blue: 0.2, alpha: 1)
         
         setupConstraints()
     }
     
     private func setupConstraints() {
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
         aboutMeLabel.translatesAutoresizingMaskIntoConstraints = false
-        textField.translatesAutoresizingMaskIntoConstraints = false
         containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let buttonStackView = UIStackView(subviews: [acceptButton, denyButton], axis: .horizontal, spacing: 8)
+        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
+        buttonStackView.distribution = .fillEqually
         
         view.addSubview(imageView)
         view.addSubview(containerView)
+        
         containerView.addSubview(usernameLabel)
         containerView.addSubview(aboutMeLabel)
-        containerView.addSubview(textField)
+        containerView.addSubview(buttonStackView)
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -59,20 +67,27 @@ class ProfileViewController: UIViewController {
             aboutMeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
             aboutMeLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -24),
             
-            textField.topAnchor.constraint(equalTo: aboutMeLabel.bottomAnchor, constant: 16),
-            textField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
-            textField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -24),
-            textField.heightAnchor.constraint(equalToConstant: 38)
+            buttonStackView.topAnchor.constraint(equalTo: aboutMeLabel.bottomAnchor, constant: 24),
+            buttonStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
+            buttonStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -24),
+            buttonStackView.heightAnchor.constraint(equalToConstant: 56)
         ])
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        acceptButton.applyGradients(cornerRadius: 10)
+    }
 }
+
 
 // MARK: - SwiftUI
 import SwiftUI
 
-struct ProfileVCProvider: PreviewProvider {
-    typealias ProviderType = ProfileVCProvider
-    typealias VCType = ProfileViewController
+struct ChatRequestVCProvider: PreviewProvider {
+    typealias ProviderType = ChatRequestVCProvider
+    typealias VCType = ChatRequestViewController
     
     static var previews: some View {
         ContainerView().edgesIgnoringSafeArea(.all)
