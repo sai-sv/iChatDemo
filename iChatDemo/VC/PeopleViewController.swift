@@ -170,6 +170,7 @@ extension PeopleViewController {
         collectionViewDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
+
 // MARK: - SwiftUI
 import SwiftUI
 
