@@ -13,14 +13,13 @@ class ProfileViewController: UIViewController {
     private var imageView = UIImageView(image: #imageLiteral(resourceName: "human10"), contentMode: .scaleAspectFill)
     private var usernameLabel = UILabel(text: "Ariana Grande", font: .systemFont(ofSize: 20, weight: .medium))
     private var aboutMeLabel = UILabel(text: "American singer, songwriter and actress", font: .systemFont(ofSize: 16, weight: .light))
-    private var textField = UITextField()
+    private var textField = InsertableTextField()
     private var containerView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         aboutMeLabel.numberOfLines = 0
-        textField.borderStyle = .roundedRect
         containerView.layer.cornerRadius = 30
         containerView.clipsToBounds = true
         containerView.backgroundColor = .whiteColor

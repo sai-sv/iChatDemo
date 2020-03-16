@@ -41,6 +41,9 @@
 		84FBE945241E78A10083C078 /* UserChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE944241E78A10083C078 /* UserChatCell.swift */; };
 		84FBE947241E7C9C0083C078 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE946241E7C9C0083C078 /* UIViewController + Extension.swift */; };
 		84FBE94B241FD3140083C078 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE94A241FD3140083C078 /* ProfileViewController.swift */; };
+		84FBE94D241FDD0F0083C078 /* InsertableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE94C241FDD0F0083C078 /* InsertableTextField.swift */; };
+		84FBE953241FE81E0083C078 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE952241FE81D0083C078 /* GradientView.swift */; };
+		84FBE955241FE84E0083C078 /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE954241FE84E0083C078 /* UIView + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +83,9 @@
 		84FBE944241E78A10083C078 /* UserChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChatCell.swift; sourceTree = "<group>"; };
 		84FBE946241E7C9C0083C078 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		84FBE94A241FD3140083C078 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		84FBE94C241FDD0F0083C078 /* InsertableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertableTextField.swift; sourceTree = "<group>"; };
+		84FBE952241FE81D0083C078 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		84FBE954241FE84E0083C078 /* UIView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +142,7 @@
 				8416D1352417D8D5009C6527 /* UIStackView + Extension.swift */,
 				842F0F82241A78F9002C2D1A /* Bundle + Extension.swift */,
 				84FBE946241E7C9C0083C078 /* UIViewController + Extension.swift */,
+				84FBE954241FE84E0083C078 /* UIView + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -147,6 +154,8 @@
 				8416D1322417B4A3009C6527 /* ButtonWithLabelView.swift */,
 				8416D1392417FA7A009C6527 /* OneLineTextField.swift */,
 				8416D14124192876009C6527 /* UserProfilePhotoView.swift */,
+				84FBE94C241FDD0F0083C078 /* InsertableTextField.swift */,
+				84FBE952241FE81D0083C078 /* GradientView.swift */,
 				8416D1292417A6BE009C6527 /* Extensions */,
 			);
 			path = UIKit;
@@ -292,6 +301,7 @@
 				8416D13A2417FA7A009C6527 /* OneLineTextField.swift in Sources */,
 				8416D12B2417A9BA009C6527 /* UIFont + Extension.swift in Sources */,
 				8416D118241513FA009C6527 /* AuthViewController.swift in Sources */,
+				84FBE94D241FDD0F0083C078 /* InsertableTextField.swift in Sources */,
 				842F0F85241A8703002C2D1A /* ActiveChatCell.swift in Sources */,
 				8416D14024182E69009C6527 /* SetupProfileViewController.swift in Sources */,
 				842F0F7B2419547D002C2D1A /* PeopleViewController.swift in Sources */,
@@ -307,6 +317,8 @@
 				8416D12F2417AE32009C6527 /* UILabel + Extension.swift in Sources */,
 				8416D1312417AEC4009C6527 /* UIImageView + Extension.swift in Sources */,
 				84FBE93E241D7FDA0083C078 /* ChatModel.swift in Sources */,
+				84FBE955241FE84E0083C078 /* UIView + Extension.swift in Sources */,
+				84FBE953241FE81E0083C078 /* GradientView.swift in Sources */,
 				8416D14224192876009C6527 /* UserProfilePhotoView.swift in Sources */,
 				842F0F7D241954C4002C2D1A /* MainTabBarController.swift in Sources */,
 				84FBE940241D80030083C078 /* UserModel.swift in Sources */,
