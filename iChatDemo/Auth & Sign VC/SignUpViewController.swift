@@ -35,12 +35,17 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
+    weak var delegate: AuthVCRoutingDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
         setupConstraints()
+        
+        signUpButton.addTarget(self, action: #selector(signUpButtonAction), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginButtonAction), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -74,6 +79,29 @@ class SignUpViewController: UIViewController {
             footerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.padding),
             footerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.padding)
         ])
+    }
+    
+    @objc func signUpButtonAction() {
+        print(#function)
+        
+        AuthService.shared.register(email: emailTextField.text,
+                                    password: passwordTextField.text,
+                                    confirmPassword: confirmPasswordTextField.text) { (result) in
+                                        switch result {
+                                        case .success(let user):
+                                            self.showAlert(title: "Успешно", message: "Вы зарегистрированы") {
+                                                self.present(MainTabBarController(), animated: true, completion: nil)
+                                            }
+                                        case .failure(let error):
+                                            self.showAlert(title: "Ошибка", message: error.localizedDescription)
+                                        }
+        }
+    }
+    
+    @objc func loginButtonAction() {
+        dismiss(animated: true) {
+            self.delegate?.toLoginVC()
+        }
     }
 }
 

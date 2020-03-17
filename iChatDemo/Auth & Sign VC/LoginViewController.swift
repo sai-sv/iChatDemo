@@ -35,6 +35,8 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    weak var delegate: AuthVCRoutingDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,6 +45,9 @@ class LoginViewController: UIViewController {
         googleButton.customizeGoogleButton()
         
         setupConstraints()
+        
+        loginButton.addTarget(self, action: #selector(loginButtonAction), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(signUpButtonAction), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -72,10 +77,30 @@ class LoginViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.padding),
             loginButton.heightAnchor.constraint(equalToConstant: Constants.buttonHeight),
             
-            footerStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 60),
+            footerStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
             footerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.padding),
             footerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.padding)
         ])
+    }
+    
+    @objc func loginButtonAction() {
+        print(#function)
+        AuthService.shared.login(email: emailTextField.text, password: passwordTextField.text) { (result) in
+            switch result {
+            case .success(let user):
+                self.showAlert(title: "Успешно", message: "Вы авторизованы") {
+                    self.present(MainTabBarController(), animated: true, completion: nil)
+                }
+            case .failure(let error):
+                self.showAlert(title: "Ошибка", message: error.localizedDescription)
+            }
+        }
+    }
+    
+    @objc func signUpButtonAction() {
+        dismiss(animated: true) {
+            self.delegate?.toSignUpVC()
+        }
     }
 }
 

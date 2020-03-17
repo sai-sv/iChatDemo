@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol AuthVCRoutingDelegate: class {
+    func toSignUpVC()
+    func toLoginVC()
+}
+
 class AuthViewController: UIViewController {
 
     private let logoImageView = UIImageView(image: #imageLiteral(resourceName: "Logo"), contentMode: .scaleAspectFit)
@@ -20,6 +25,9 @@ class AuthViewController: UIViewController {
     private let emailButton = UIButton(title: "Email", titleColor: .whiteColor, backgroundColor: .blackColor)
     private let loginButton = UIButton(title: "Login", titleColor: .redColor, backgroundColor: .whiteColor, isShadow: true)
     
+    private let loginVC = LoginViewController()
+    private let signUpVC = SignUpViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +36,12 @@ class AuthViewController: UIViewController {
         googleButton.customizeGoogleButton()
         
         setupConstraints()
+        
+        emailButton.addTarget(self, action: #selector(emailButtonAction), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginButtonAction), for: .touchUpInside)
+        
+        loginVC.delegate = self
+        signUpVC.delegate = self
     }
     
     private func setupConstraints() {
@@ -51,6 +65,24 @@ class AuthViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.padding),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.padding),
         ])
+    }
+    
+    @objc func emailButtonAction() {
+        present(signUpVC, animated: true, completion: nil)
+    }
+    
+    @objc func loginButtonAction() {
+        present(loginVC, animated: true, completion: nil)
+    }
+}
+
+extension AuthViewController: AuthVCRoutingDelegate {
+    func toSignUpVC() {
+        self.present(signUpVC, animated: true, completion: nil)
+    }
+    
+    func toLoginVC() {
+        self.present(loginVC, animated: true, completion: nil)
     }
 }
 
