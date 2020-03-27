@@ -53,6 +53,10 @@ class SetupProfileViewController: UIViewController {
         setupConstraints()
         
         goToChatsButton.addTarget(self, action: #selector(goToChatsButtonAction), for: .touchUpInside)
+        
+        if let name = currentUser.displayName {
+            fullNameTextField.text = name
+        }
     }
     
     @objc private func goToChatsButtonAction() {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class AuthViewController: UIViewController {
 
@@ -34,9 +35,11 @@ class AuthViewController: UIViewController {
         
         emailButton.addTarget(self, action: #selector(emailButtonAction), for: .touchUpInside)
         loginButton.addTarget(self, action: #selector(loginButtonAction), for: .touchUpInside)
+        googleButton.addTarget(self, action: #selector(googleLoginButtonAction), for: .touchUpInside)
         
         loginVC.delegate = self
         signUpVC.delegate = self
+        GIDSignIn.sharedInstance().delegate = self
     }
     
     private func setupConstraints() {
@@ -69,6 +72,11 @@ class AuthViewController: UIViewController {
     @objc func loginButtonAction() {
         present(loginVC, animated: true, completion: nil)
     }
+    
+    @objc func googleLoginButtonAction() {
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().signIn()
+    }
 }
 
 extension AuthViewController: AuthVCRoutingDelegate {
@@ -79,6 +87,38 @@ extension AuthViewController: AuthVCRoutingDelegate {
     func toLoginVC() {
         self.present(loginVC, animated: true, completion: nil)
     }
+}
+
+// MARK: - GIDSignInDelegate
+extension AuthViewController: GIDSignInDelegate {
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        
+        AuthService.shared.googleLogin(user: user, withError: error) { (result) in
+            switch result {
+            case .failure(let error):
+                self.showAlert(title: "Ошибка!", message: error.localizedDescription)
+            case .success(let user):
+                FirestoreService.shared.getUserProfile(user: user) { (result) in
+                    
+                    let topVC = UIApplication.getTopViewController()
+                    switch result {
+                    case .failure(let error):
+                        print(#function + "user profile error: \(error.localizedDescription)")
+                        topVC?.showAlert(title: "Успешно!", message: "Вы зарегистрированы!") {
+                            topVC?.present(SetupProfileViewController(user: user), animated: true)
+                        }
+                    case .success(let userModel):
+                        topVC?.showAlert(title: "Успешно!", message: "Вы авторизованы!") {
+                            let mainTabBarVC = MainTabBarController(currentUser: userModel)
+                            mainTabBarVC.modalPresentationStyle = .fullScreen
+                            topVC?.present(mainTabBarVC, animated: true)
+                        }
+                    } // result
+                }
+            }
+        }
+    } // end sign func
 }
 
 // MARK: - SwiftUI

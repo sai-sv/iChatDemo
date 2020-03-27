@@ -25,6 +25,7 @@
 		8416D13E24181C29009C6527 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416D13D24181C29009C6527 /* Constants.swift */; };
 		8416D14024182E69009C6527 /* SetupProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416D13F24182E69009C6527 /* SetupProfileViewController.swift */; };
 		8416D14224192876009C6527 /* UserProfilePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416D14124192876009C6527 /* UserProfilePhotoView.swift */; };
+		84171296242E48A700E74708 /* UIApplication + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84171295242E48A700E74708 /* UIApplication + Extension.swift */; };
 		842F0F7824195407002C2D1A /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F0F7724195407002C2D1A /* ListViewController.swift */; };
 		842F0F7B2419547D002C2D1A /* PeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F0F7A2419547D002C2D1A /* PeopleViewController.swift */; };
 		842F0F7D241954C4002C2D1A /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F0F7C241954C4002C2D1A /* MainTabBarController.swift */; };
@@ -77,6 +78,7 @@
 		8416D13D24181C29009C6527 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8416D13F24182E69009C6527 /* SetupProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupProfileViewController.swift; sourceTree = "<group>"; };
 		8416D14124192876009C6527 /* UserProfilePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePhotoView.swift; sourceTree = "<group>"; };
+		84171295242E48A700E74708 /* UIApplication + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication + Extension.swift"; sourceTree = "<group>"; };
 		842F0F7724195407002C2D1A /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		842F0F7A2419547D002C2D1A /* PeopleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleViewController.swift; sourceTree = "<group>"; };
 		842F0F7C241954C4002C2D1A /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				842F0F82241A78F9002C2D1A /* Bundle + Extension.swift */,
 				84FBE946241E7C9C0083C078 /* UIViewController + Extension.swift */,
 				84FBE954241FE84E0083C078 /* UIView + Extension.swift */,
+				84171295242E48A700E74708 /* UIApplication + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				8416D13A2417FA7A009C6527 /* OneLineTextField.swift in Sources */,
 				8416D12B2417A9BA009C6527 /* UIFont + Extension.swift in Sources */,
 				8416D118241513FA009C6527 /* AuthViewController.swift in Sources */,
+				84171296242E48A700E74708 /* UIApplication + Extension.swift in Sources */,
 				84FBE94D241FDD0F0083C078 /* InsertableTextField.swift in Sources */,
 				842F0F85241A8703002C2D1A /* ActiveChatCell.swift in Sources */,
 				84FBE961242138350083C078 /* AuthError.swift in Sources */,

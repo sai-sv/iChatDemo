@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
@@ -46,6 +47,7 @@ class LoginViewController: UIViewController {
         
         setupConstraints()
         
+        googleButton.addTarget(self, action: #selector(googleLoginButtonAction), for: .touchUpInside)
         loginButton.addTarget(self, action: #selector(loginButtonAction), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(signUpButtonAction), for: .touchUpInside)
     }
@@ -83,8 +85,12 @@ class LoginViewController: UIViewController {
         ])
     }
     
-    @objc func loginButtonAction() {
-        print(#function)
+    @objc private func googleLoginButtonAction() {
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    @objc private func loginButtonAction() {        
         AuthService.shared.login(email: emailTextField.text, password: passwordTextField.text) { (result) in
             switch result {
             case .success(let user):
@@ -108,7 +114,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @objc func signUpButtonAction() {
+    @objc private func signUpButtonAction() {
         dismiss(animated: true) {
             self.delegate?.toSignUpVC()
         }
