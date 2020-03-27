@@ -10,8 +10,8 @@ import UIKit
 
 class ListViewController: UIViewController {
     
-    private let activeChatasModel = Bundle.main.decode([ChatModel].self, from: "activeChats.json")
-    private let waitingChatsModel = Bundle.main.decode([ChatModel].self, from: "waitingChats.json")
+    private let activeChatasModel: [ChatModel] = [] // = Bundle.main.decode([ChatModel].self, from: "activeChats.json")
+    private let waitingChatsModel: [ChatModel] = [] // = Bundle.main.decode([ChatModel].self, from: "waitingChats.json")
     
     enum CollectionViewSection: Int, CaseIterable {
         case WaitingChats, ActiveChats
@@ -147,6 +147,7 @@ extension ListViewController {
     
     private func collectionViewItemData() {
         
+        // items
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { (collectionView, indexPath, itemData) -> UICollectionViewCell? in
             guard let section = CollectionViewSection(rawValue: indexPath.section) else { fatalError("Unknown section kind") }
@@ -158,6 +159,7 @@ extension ListViewController {
             }
         })
         
+        // header
         collectionViewDataSource?.supplementaryViewProvider = {
             (collectionView, kind, indexPath) in
             

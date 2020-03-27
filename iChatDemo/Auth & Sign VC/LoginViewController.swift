@@ -89,7 +89,16 @@ class LoginViewController: UIViewController {
             switch result {
             case .success(let user):
                 self.showAlert(title: "Успешно", message: "Вы авторизованы") {
-                    self.present(MainTabBarController(), animated: true, completion: nil)
+                    // check if profile exist and all profile field's filled
+                    FirestoreService.shared.getUserProfile(user: user) { (result) in
+                        switch result {
+                        case .failure(let error):
+                            print(#function + "user profile error: \(error.localizedDescription)")
+                            self.present(SetupProfileViewController(user: user), animated: true, completion: nil)
+                        case .success(_):
+                            self.present(MainTabBarController(), animated: true, completion: nil)
+                        }
+                    }
                 }
             case .failure(let error):
                 self.showAlert(title: "Ошибка", message: error.localizedDescription)

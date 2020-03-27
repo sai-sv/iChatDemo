@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol AuthVCRoutingDelegate: class {
-    func toSignUpVC()
-    func toLoginVC()
-}
-
 class AuthViewController: UIViewController {
 
     private let logoImageView = UIImageView(image: #imageLiteral(resourceName: "Logo"), contentMode: .scaleAspectFit)

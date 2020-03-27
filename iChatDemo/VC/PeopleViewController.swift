@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class PeopleViewController: UIViewController {
     
@@ -23,16 +24,36 @@ class PeopleViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<CollectionViewSection, UserModel>!
     
-    private var model: [UserModel] = Bundle.main.decode([UserModel].self, from: "users.json")
+    private var model: [UserModel] = [] //= Bundle.main.decode([UserModel].self, from: "users.json")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupSearchBar()
+        setupSignOutItem()
         
         setupCollectionView()
         collectionViewData()
         reloadData(with: nil)
+    }
+    
+    private func setupSignOutItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(signOutAction))
+    }
+    
+    @objc private func signOutAction() {
+        let alert = UIAlertController(title: nil, message: "Are you shure want to sign out?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
+            
+            do {
+                try Auth.auth().signOut()
+                UIApplication.shared.keyWindow?.rootViewController = AuthViewController()
+            } catch {
+                print(#function + " sign out error: " + error.localizedDescription)
+            }
+        }))
+        present(alert, animated: true)
     }
     
     private func setupSearchBar() {

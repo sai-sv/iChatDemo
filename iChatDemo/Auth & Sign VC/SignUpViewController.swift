@@ -90,7 +90,7 @@ class SignUpViewController: UIViewController {
                                         switch result {
                                         case .success(let user):
                                             self.showAlert(title: "Успешно", message: "Вы зарегистрированы") {
-                                                self.present(MainTabBarController(), animated: true, completion: nil)
+                                                self.present(SetupProfileViewController(user: user), animated: true, completion: nil)
                                             }
                                         case .failure(let error):
                                             self.showAlert(title: "Ошибка", message: error.localizedDescription)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SetupProfileViewController: UIViewController {
     
@@ -20,7 +21,7 @@ class SetupProfileViewController: UIViewController {
     private let aboutTextField = OneLineTextField(font: .avenirFont())
     
     private let genderLabel = UILabel(text: "Gender")
-    private let genderControl: UISegmentedControl = {
+    private let genderControl: UISegmentedControl = { 
         let segmentedControl = UISegmentedControl()
         segmentedControl.insertSegment(withTitle: "Male", at: 0, animated: false)
         segmentedControl.insertSegment(withTitle: "Female", at: 1, animated: false)
@@ -33,12 +34,48 @@ class SetupProfileViewController: UIViewController {
         return button
     }()
     
+    private let currentUser: User // FirebaseAuth User
+    
+    init(user: User) {
+        currentUser = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
         setupConstraints()
+        
+        goToChatsButton.addTarget(self, action: #selector(goToChatsButtonAction), for: .touchUpInside)
+    }
+    
+    @objc private func goToChatsButtonAction() {
+        
+        guard let email = currentUser.email else {
+            return
+        }
+        FirestoreService.shared.saveProfile(id: currentUser.uid,
+                                            email: email,
+                                            username: fullNameTextField.text,
+                                            gender: genderControl.titleForSegment(at: genderControl.selectedSegmentIndex),
+                                            description: aboutTextField.text,
+                                            avatarURL: "no photo") { (result) in
+                                                switch result {
+                                                case .failure(let error):
+                                                    self.showAlert(title: "Ошибка!", message: error.localizedDescription)
+                                                case .success(_):
+                                                    self.showAlert(title: "Успешно!", message: "Приятного общения") {
+                                                        self.present(MainTabBarController(), animated: true)
+                                                    }
+                                                    
+                                                }
+        }
     }
     
     private func setupConstraints() {
@@ -47,7 +84,7 @@ class SetupProfileViewController: UIViewController {
         let aboutStackView = UIStackView(subviews: [aboutLabel, aboutTextField], spacing: 0)
         let genderStackView = UIStackView(subviews: [genderLabel, genderControl], spacing: 12)
         let stackView = UIStackView(subviews: [fullNameStackView, aboutStackView, genderStackView, goToChatsButton])
-    
+        
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         userProfilePhotoView.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -82,7 +119,7 @@ struct SetupProfileVCProvider: PreviewProvider {
     
     struct ContainerView: UIViewControllerRepresentable {
         
-        let viewController = SetupProfileViewController()
+        let viewController = SetupProfileViewController(user: Auth.auth().currentUser!)
         
         func makeUIViewController(context: UIViewControllerRepresentableContext<SetupProfileVCProvider.ContainerView>) -> SetupProfileViewController {
             return viewController

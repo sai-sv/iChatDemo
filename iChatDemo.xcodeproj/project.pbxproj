@@ -30,6 +30,9 @@
 		842F0F7D241954C4002C2D1A /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F0F7C241954C4002C2D1A /* MainTabBarController.swift */; };
 		842F0F83241A78F9002C2D1A /* Bundle + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F0F82241A78F9002C2D1A /* Bundle + Extension.swift */; };
 		842F0F85241A8703002C2D1A /* ActiveChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F0F84241A8703002C2D1A /* ActiveChatCell.swift */; };
+		84DA6A1F242D3ECC003D44CE /* AuthVCRoutingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DA6A1E242D3ECC003D44CE /* AuthVCRoutingDelegate.swift */; };
+		84DA6A22242D3F78003D44CE /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DA6A21242D3F78003D44CE /* FirestoreService.swift */; };
+		84DA6A24242DCA8B003D44CE /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DA6A23242DCA8B003D44CE /* UserError.swift */; };
 		84FBE935241A8CCC0083C078 /* waitingChats.json in Resources */ = {isa = PBXBuildFile; fileRef = 84FBE933241A8CCC0083C078 /* waitingChats.json */; };
 		84FBE936241A8CCC0083C078 /* activeChats.json in Resources */ = {isa = PBXBuildFile; fileRef = 84FBE934241A8CCC0083C078 /* activeChats.json */; };
 		84FBE938241A93420083C078 /* CollectionViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE937241A93420083C078 /* CollectionViewCellProtocol.swift */; };
@@ -79,6 +82,9 @@
 		842F0F7C241954C4002C2D1A /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		842F0F82241A78F9002C2D1A /* Bundle + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle + Extension.swift"; sourceTree = "<group>"; };
 		842F0F84241A8703002C2D1A /* ActiveChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveChatCell.swift; sourceTree = "<group>"; };
+		84DA6A1E242D3ECC003D44CE /* AuthVCRoutingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVCRoutingDelegate.swift; sourceTree = "<group>"; };
+		84DA6A21242D3F78003D44CE /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
+		84DA6A23242DCA8B003D44CE /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		84FBE933241A8CCC0083C078 /* waitingChats.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waitingChats.json; sourceTree = "<group>"; };
 		84FBE934241A8CCC0083C078 /* activeChats.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activeChats.json; sourceTree = "<group>"; };
 		84FBE937241A93420083C078 /* CollectionViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellProtocol.swift; sourceTree = "<group>"; };
@@ -145,12 +151,14 @@
 			children = (
 				8416D113241513FA009C6527 /* AppDelegate.swift */,
 				8416D115241513FA009C6527 /* SceneDelegate.swift */,
+				84DA6A20242D3ED7003D44CE /* Protocols */,
+				84FBE941241D80320083C078 /* Model */,
 				84FBE95C2420BE970083C078 /* Services */,
 				842F0F792419543F002C2D1A /* VC */,
 				842F0F76241953E1002C2D1A /* Auth & Sign VC */,
 				8416D1342417CFEA009C6527 /* UIKit */,
-				84FBE949241E879E0083C078 /* FakeData */,
 				84FBE95F2421370D0083C078 /* Helpers */,
+				84FBE949241E879E0083C078 /* FakeData */,
 				8416D11C241513FE009C6527 /* Assets.xcassets */,
 				8416D11E241513FE009C6527 /* LaunchScreen.storyboard */,
 				84FBE9582420BCC00083C078 /* GoogleService-Info.plist */,
@@ -178,13 +186,13 @@
 		8416D1342417CFEA009C6527 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				8416D1292417A6BE009C6527 /* Extensions */,
 				8416D13D24181C29009C6527 /* Constants.swift */,
 				8416D1322417B4A3009C6527 /* ButtonWithLabelView.swift */,
 				8416D1392417FA7A009C6527 /* OneLineTextField.swift */,
 				8416D14124192876009C6527 /* UserProfilePhotoView.swift */,
 				84FBE94C241FDD0F0083C078 /* InsertableTextField.swift */,
 				84FBE952241FE81D0083C078 /* GradientView.swift */,
-				8416D1292417A6BE009C6527 /* Extensions */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -204,7 +212,6 @@
 			isa = PBXGroup;
 			children = (
 				842F0F86241A873E002C2D1A /* ChatCell */,
-				84FBE941241D80320083C078 /* Model */,
 				84FBE948241E87720083C078 /* Header */,
 				842F0F7C241954C4002C2D1A /* MainTabBarController.swift */,
 				842F0F7724195407002C2D1A /* ListViewController.swift */,
@@ -224,6 +231,14 @@
 				84FBE944241E78A10083C078 /* UserChatCell.swift */,
 			);
 			path = ChatCell;
+			sourceTree = "<group>";
+		};
+		84DA6A20242D3ED7003D44CE /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				84DA6A1E242D3ECC003D44CE /* AuthVCRoutingDelegate.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		84FBE941241D80320083C078 /* Model */ = {
@@ -257,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				84FBE95A2420BE920083C078 /* AuthService.swift */,
+				84DA6A21242D3F78003D44CE /* FirestoreService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -266,6 +282,7 @@
 			children = (
 				84FBE95D242136FC0083C078 /* Validators.swift */,
 				84FBE960242138350083C078 /* AuthError.swift */,
+				84DA6A23242DCA8B003D44CE /* UserError.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -411,6 +428,8 @@
 				84FBE938241A93420083C078 /* CollectionViewCellProtocol.swift in Sources */,
 				8416D114241513FA009C6527 /* AppDelegate.swift in Sources */,
 				84FBE947241E7C9C0083C078 /* UIViewController + Extension.swift in Sources */,
+				84DA6A1F242D3ECC003D44CE /* AuthVCRoutingDelegate.swift in Sources */,
+				84DA6A22242D3F78003D44CE /* FirestoreService.swift in Sources */,
 				8416D1362417D8D5009C6527 /* UIStackView + Extension.swift in Sources */,
 				84FBE945241E78A10083C078 /* UserChatCell.swift in Sources */,
 				84FBE94B241FD3140083C078 /* ProfileViewController.swift in Sources */,
@@ -418,6 +437,7 @@
 				84FBE93C241AD3460083C078 /* CollectionViewSectionHeader.swift in Sources */,
 				8416D1332417B4A3009C6527 /* ButtonWithLabelView.swift in Sources */,
 				8416D12F2417AE32009C6527 /* UILabel + Extension.swift in Sources */,
+				84DA6A24242DCA8B003D44CE /* UserError.swift in Sources */,
 				8416D1312417AEC4009C6527 /* UIImageView + Extension.swift in Sources */,
 				84FBE93E241D7FDA0083C078 /* ChatModel.swift in Sources */,
 				84FBE955241FE84E0083C078 /* UIView + Extension.swift in Sources */,
