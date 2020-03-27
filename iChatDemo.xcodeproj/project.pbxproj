@@ -308,6 +308,7 @@
 				8416D10D241513FA009C6527 /* Frameworks */,
 				8416D10E241513FA009C6527 /* Resources */,
 				253E9ED7C01593781A0E940F /* [CP] Embed Pods Frameworks */,
+				0F8D5F9F7C9235B31CA91E92 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -368,6 +369,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0F8D5F9F7C9235B31CA91E92 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iChatDemo/Pods-iChatDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iChatDemo/Pods-iChatDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iChatDemo/Pods-iChatDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		253E9ED7C01593781A0E940F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

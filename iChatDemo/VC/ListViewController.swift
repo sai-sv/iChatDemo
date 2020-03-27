@@ -13,6 +13,17 @@ class ListViewController: UIViewController {
     private let activeChatasModel: [ChatModel] = [] // = Bundle.main.decode([ChatModel].self, from: "activeChats.json")
     private let waitingChatsModel: [ChatModel] = [] // = Bundle.main.decode([ChatModel].self, from: "waitingChats.json")
     
+    private var currentUser: UserModel
+    
+    init(currentUser: UserModel) {
+        self.currentUser = currentUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     enum CollectionViewSection: Int, CaseIterable {
         case WaitingChats, ActiveChats
         

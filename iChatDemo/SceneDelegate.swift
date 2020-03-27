@@ -30,7 +30,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     self.window?.rootViewController = AuthViewController()
                 case .success(let userModel):
                     print(#function + "user: \(userModel.username), with email: \(userModel.email) already onboard")
-                    self.window?.rootViewController = MainTabBarController()
+                    let mainTabBarVC = MainTabBarController(currentUser: userModel)
+                    mainTabBarVC.modalPresentationStyle = .fullScreen
+                    self.window?.rootViewController = mainTabBarVC
                 }
             }
         } else {

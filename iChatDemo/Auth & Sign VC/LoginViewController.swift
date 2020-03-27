@@ -95,8 +95,10 @@ class LoginViewController: UIViewController {
                         case .failure(let error):
                             print(#function + "user profile error: \(error.localizedDescription)")
                             self.present(SetupProfileViewController(user: user), animated: true, completion: nil)
-                        case .success(_):
-                            self.present(MainTabBarController(), animated: true, completion: nil)
+                        case .success(let userModel):
+                            let mainTabBarVC = MainTabBarController(currentUser: userModel)
+                            mainTabBarVC.modalPresentationStyle = .fullScreen
+                            self.present(mainTabBarVC, animated: true, completion: nil)
                         }
                     }
                 }

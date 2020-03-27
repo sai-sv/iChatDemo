@@ -25,6 +25,16 @@ class PeopleViewController: UIViewController {
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<CollectionViewSection, UserModel>!
     
     private var model: [UserModel] = [] //= Bundle.main.decode([UserModel].self, from: "users.json")
+    private var currentUser: UserModel
+    
+    init(currentUser: UserModel) {
+        self.currentUser = currentUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +45,8 @@ class PeopleViewController: UIViewController {
         setupCollectionView()
         collectionViewData()
         reloadData(with: nil)
+        
+        title = currentUser.username
     }
     
     private func setupSignOutItem() {
