@@ -19,12 +19,12 @@ struct UserModel: Hashable, Decodable {
     
     init?(document: DocumentSnapshot) { // try init from Firebase DocumentSnapshot
         guard let data = document.data(),
-            let id = data["uid"] as? String,
-            let email = data["email"] as? String,
-            let username = data["username"] as? String,
-            let gender = data["gender"] as? String,
-            let description = data["description"] as? String,
-            let avatarURL = data["avatarURL"] as? String else {
+            let id = data["uid"] as? String, !id.isEmpty,
+            let email = data["email"] as? String, !email.isEmpty,
+            let username = data["username"] as? String, !username.isEmpty,
+            let gender = data["gender"] as? String, !gender.isEmpty,
+            let description = data["description"] as? String, !description.isEmpty,
+            let avatarURL = data["avatarURL"] as? String, !avatarURL.isEmpty else {
                 return nil
         }
         self.id = id
@@ -37,12 +37,12 @@ struct UserModel: Hashable, Decodable {
     
     init?(document: QueryDocumentSnapshot) { // try init from Firebase QueryDocumentSnapshot
         let data = document.data()
-        guard let id = data["uid"] as? String,
-            let email = data["email"] as? String,
-            let username = data["username"] as? String,
-            let gender = data["gender"] as? String,
-            let description = data["description"] as? String,
-            let avatarURL = data["avatarURL"] as? String else {
+        guard let id = data["uid"] as? String, !id.isEmpty,
+            let email = data["email"] as? String, !email.isEmpty,
+            let username = data["username"] as? String, !username.isEmpty,
+            let gender = data["gender"] as? String, !gender.isEmpty,
+            let description = data["description"] as? String, !description.isEmpty,
+            let avatarURL = data["avatarURL"] as? String, !avatarURL.isEmpty else {
                 return nil
         }
         self.id = id
