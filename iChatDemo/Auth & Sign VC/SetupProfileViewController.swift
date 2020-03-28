@@ -38,7 +38,15 @@ class SetupProfileViewController: UIViewController {
     
     init(user: User) {
         currentUser = user
+        
         super.init(nibName: nil, bundle: nil)
+        
+        if let name = currentUser.displayName {
+            fullNameTextField.text = name // set google profile name if exist
+        }
+        if let url = currentUser.photoURL {
+            userProfilePhotoView.userPhoto.sd_setImage(with: url) // set google profile photo if exist
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -54,11 +62,6 @@ class SetupProfileViewController: UIViewController {
         
         userProfilePhotoView.addPhotoButton.addTarget(self, action: #selector(selectUserPhotoAction), for: .touchUpInside)
         goToChatsButton.addTarget(self, action: #selector(goToChatsButtonAction), for: .touchUpInside)
-        
-        if let name = currentUser.displayName {
-            fullNameTextField.text = name
-        }
-        // TODO: set profile photo from currentUser.avatarURL!
     }
     
     @objc private func selectUserPhotoAction() {

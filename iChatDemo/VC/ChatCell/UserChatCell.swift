@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class UserChatCell: UICollectionViewCell {
     
@@ -75,7 +76,10 @@ extension UserChatCell: CollectionViewCellProtocol {
         guard let model = data as? UserModel else { return }
         
         usernameLabel.text = model.username
-        photoImageView.image = UIImage(named: model.avatarStringURL)
+        
+        if let url = URL(string: model.avatarStringURL) {
+            photoImageView.sd_setImage(with: url)
+        }
     }
 }
 

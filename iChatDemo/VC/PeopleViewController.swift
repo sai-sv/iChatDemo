@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class PeopleViewController: UIViewController {
     
@@ -26,6 +27,7 @@ class PeopleViewController: UIViewController {
     
     private var model: [UserModel] = [] //= Bundle.main.decode([UserModel].self, from: "users.json")
     private var currentUser: UserModel
+    private var listner: ListenerRegistration?
     
     init(currentUser: UserModel) {
         self.currentUser = currentUser
@@ -36,6 +38,10 @@ class PeopleViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        listner?.remove()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,9 +50,19 @@ class PeopleViewController: UIViewController {
         
         setupCollectionView()
         collectionViewData()
-        reloadData(with: nil)
         
         title = currentUser.username
+        
+        // realtime firestore update
+        listner = StorageListner.shared.observe(users: model, completion: { (result) in
+            switch result {
+            case .success(let users):
+                self.model = users
+                self.reloadData(with: nil)
+            case .failure(let error):
+                self.showAlert(title: "Ошибка!", message: error.localizedDescription)
+            }
+        })
     }
     
     private func setupSignOutItem() {

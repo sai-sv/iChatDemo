@@ -35,6 +35,24 @@ struct UserModel: Hashable, Decodable {
         self.avatarStringURL = avatarURL
     }
     
+    init?(document: QueryDocumentSnapshot) { // try init from Firebase QueryDocumentSnapshot
+        let data = document.data()
+        guard let id = data["uid"] as? String,
+            let email = data["email"] as? String,
+            let username = data["username"] as? String,
+            let gender = data["gender"] as? String,
+            let description = data["description"] as? String,
+            let avatarURL = data["avatarURL"] as? String else {
+                return nil
+        }
+        self.id = id
+        self.email = email
+        self.username = username
+        self.gender = gender
+        self.description = description
+        self.avatarStringURL = avatarURL
+    }
+    
     init(id: String, email: String, username: String, gender: String, description: String, avatarStringURL: String) {
         self.id = id
         self.email = email
