@@ -13,6 +13,9 @@ enum UserError {
     case photoNotExist
     case profileNotExist
     case documentConversionFailed
+    case photoScaleFailed
+    case photoCompressionFailed
+    case userNotAuthorized
 }
 
 extension UserError: LocalizedError {
@@ -26,6 +29,12 @@ extension UserError: LocalizedError {
             return NSLocalizedString("Профиль не найден", comment: "")
         case .documentConversionFailed:
             return NSLocalizedString("Ошибка конвертации модели пользователя", comment: "")
+        case .photoScaleFailed:
+            return NSLocalizedString("Ошибка масштабирования фотографии", comment: "")
+            case .photoCompressionFailed:
+            return NSLocalizedString("Ошибка сжатия фотографии", comment: "")
+        case .userNotAuthorized:
+            return NSLocalizedString("Пользователь не авторизован", comment: "")
         }
     }
 }

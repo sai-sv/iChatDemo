@@ -19,7 +19,7 @@ class FirestoreService {
         return db.collection("users")
     }
     
-    func saveProfile(id: String, email: String, username: String?, gender: String?, description: String?, avatarURL: String?,
+    func saveProfile(id: String, email: String, username: String?, gender: String?, description: String?, avatarImage: UIImage?,
                      completion: @escaping (Result<UserModel, Error>) -> Void) {
         
         guard Validators.isFilled(username: username, gender: gender, description: description) else {
@@ -27,20 +27,34 @@ class FirestoreService {
             return
         }
         
-        let user = UserModel(id: id,
+        guard let photo = avatarImage, photo != #imageLiteral(resourceName: "avatar") else {
+            completion(.failure(UserError.photoNotExist))
+            return
+        }
+        
+        var userModel = UserModel(id: id,
                              email: email,
                              username: username!,
                              gender: gender!,
                              description: description!,
                              avatarStringURL: "no photo")
         
-        usersRef.document(user.id).setData(user.representation()) { (error) in
-            if let error = error {
+        StorageService.shared.upload(image: photo) { (result) in
+            switch result {
+            case .failure(let error):
                 completion(.failure(error))
-            } else {
-                completion(.success(user))
+            case .success(let photoURL):
+                userModel.avatarStringURL = photoURL.absoluteString
+                
+                self.usersRef.document(userModel.id).setData(userModel.representation()) { (error) in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(userModel))
+                    }
+                }
             }
-        }
+        } // StorageService upload
     }
     
     func getUserProfile(user: User, completion: @escaping (Result<UserModel, Error>) -> Void) {

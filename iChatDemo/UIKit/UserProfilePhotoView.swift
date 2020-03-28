@@ -10,16 +10,17 @@ import UIKit
 
 class UserProfilePhotoView: UIView {
     
-    private let userPhoto: UIImageView = {
+    let userPhoto: UIImageView = {
         var imageView = UIImageView(image: #imageLiteral(resourceName: "avatar"), contentMode: .scaleAspectFit)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    private let addPhotoButton: UIButton = {
+    let addPhotoButton: UIButton = {
         var button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(#imageLiteral(resourceName: "plus"), for: .normal)

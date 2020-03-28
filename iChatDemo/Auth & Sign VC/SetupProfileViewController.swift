@@ -52,11 +52,20 @@ class SetupProfileViewController: UIViewController {
         
         setupConstraints()
         
+        userProfilePhotoView.addPhotoButton.addTarget(self, action: #selector(selectUserPhotoAction), for: .touchUpInside)
         goToChatsButton.addTarget(self, action: #selector(goToChatsButtonAction), for: .touchUpInside)
         
         if let name = currentUser.displayName {
             fullNameTextField.text = name
         }
+        // TODO: set profile photo from currentUser.avatarURL!
+    }
+    
+    @objc private func selectUserPhotoAction() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        present(picker, animated: true)
     }
     
     @objc private func goToChatsButtonAction() {
@@ -69,7 +78,7 @@ class SetupProfileViewController: UIViewController {
                                             username: fullNameTextField.text,
                                             gender: genderControl.titleForSegment(at: genderControl.selectedSegmentIndex),
                                             description: aboutTextField.text,
-                                            avatarURL: "no photo") { (result) in
+                                            avatarImage: userProfilePhotoView.userPhoto.image) { (result) in
                                                 switch result {
                                                 case .failure(let error):
                                                     self.showAlert(title: "Ошибка!", message: error.localizedDescription)
@@ -114,6 +123,17 @@ class SetupProfileViewController: UIViewController {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
+extension SetupProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        dismiss(animated: true)
+        guard let image = info[.originalImage] as? UIImage else {
+            return
+        }
+        userProfilePhotoView.userPhoto.image = image
+    }
+}
 
 // MARK: - SwiftUI
 import SwiftUI
