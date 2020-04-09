@@ -68,6 +68,7 @@ class InsertableTextField: UITextField {
     }
 }
 
+/*
 // MARK: - SwiftUI
 import SwiftUI
 
@@ -90,4 +91,4 @@ struct InsertableTextFieldProvider: PreviewProvider {
         func updateUIViewController(_ uiViewController: ProviderType.ContainerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ProviderType.ContainerView>) {
         }
     }
-}
+}*/

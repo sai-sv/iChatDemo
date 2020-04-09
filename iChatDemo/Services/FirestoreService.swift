@@ -18,6 +18,7 @@ class FirestoreService {
     private var usersRef: CollectionReference {
         return db.collection("users")
     }
+    private var currentUser: UserModel!
     
     func saveProfile(id: String, email: String, username: String?, gender: String?, description: String?, avatarImage: UIImage?,
                      completion: @escaping (Result<UserModel, Error>) -> Void) {
@@ -75,7 +76,36 @@ class FirestoreService {
                 completion(.failure(UserError.documentConversionFailed))
                 return
             }
+            self.currentUser = userModel
             completion(.success(userModel))
         }
+    }
+    
+    func chatRequest(message: String, receiverUser: UserModel, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        let waitingChatsRef = db.collection(["users", receiverUser.id, "waitingChats"].joined(separator: "/"))
+        let messagesRef = waitingChatsRef.document(currentUser.id).collection("messages")
+        
+        let messageModel = MessageModel(user: currentUser, content: message)
+        
+        let chatModel = ChatModel(friendUsername: currentUser.username,
+                             friendAvatarStringURL: currentUser.avatarStringURL,
+                             lastMessage: messageModel.content,
+                             friendId: currentUser.id)
+        waitingChatsRef.document(currentUser.id).setData(chatModel.representation()) { (error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            messagesRef.addDocument(data: messageModel.representation()) { (error) in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                completion(.success(Void()))
+            }
+        }
+        
+        
     }
 }

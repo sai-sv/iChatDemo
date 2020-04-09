@@ -9,17 +9,24 @@
 import UIKit
 
 struct ChatModel: Hashable, Decodable {
-    var username: String
-    var userImageString: String
+    var friendUsername: String
+    var friendAvatarStringURL: String
     var lastMessage: String
+    var friendId: String
     
-    var id: Int
+    func representation() -> [String: Any] {
+        let rep = ["friendName": friendUsername,
+                   "friendAvatarURL": friendAvatarStringURL,
+                   "lastMessage": lastMessage,
+                   "friendId": friendId]
+        return rep
+    }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(friendId)
     }
     
     static func == (lhs: ChatModel, rhs: ChatModel) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.friendId == rhs.friendId
     }
 }

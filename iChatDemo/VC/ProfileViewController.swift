@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ProfileViewController: UIViewController {
+    
+    private var userModel: UserModel!
     
     private var imageView = UIImageView(image: #imageLiteral(resourceName: "human10"), contentMode: .scaleAspectFill)
     private var usernameLabel = UILabel(text: "Ariana Grande", font: .systemFont(ofSize: 20, weight: .medium))
@@ -16,12 +19,29 @@ class ProfileViewController: UIViewController {
     private var textField = InsertableTextField()
     private var containerView = UIView()
     
+    init(userModel: UserModel) {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.userModel = userModel
+        self.usernameLabel.text = userModel.username
+        self.aboutMeLabel.text = userModel.description
+        self.imageView.sd_setImage(with: URL(string: userModel.avatarStringURL), completed: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         aboutMeLabel.numberOfLines = 0
         containerView.layer.cornerRadius = 30
         containerView.backgroundColor = .whiteColor
+        
+        if let button = textField.rightView as? UIButton {
+            button.addTarget(self, action: #selector(sendButttonAction), for: .touchUpInside)
+        }
         
         setupConstraints()
     }
@@ -65,8 +85,25 @@ class ProfileViewController: UIViewController {
             textField.heightAnchor.constraint(equalToConstant: 38)
         ])
     }
+    
+    @objc private func sendButttonAction() {
+        guard let message = textField.text else { return }
+        
+        dismiss(animated: true) {
+            FirestoreService.shared.chatRequest(message: message, receiverUser: self.userModel) { (result) in
+                switch result {
+                case .failure(let error):
+                    UIApplication.getTopViewController()?.showAlert(title: "Ошибка!", message: error.localizedDescription)
+                case .success:
+                    UIApplication.getTopViewController()?.showAlert(title: "Успешно!",
+                                                                    message: "Ваше сообщение для \(self.userModel.username) отправлено")
+                }
+            }
+        }
+    }
 }
 
+/*
 // MARK: - SwiftUI
 import SwiftUI
 
@@ -89,4 +126,4 @@ struct ProfileVCProvider: PreviewProvider {
         func updateUIViewController(_ uiViewController: ProviderType.ContainerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ProviderType.ContainerView>) {
         }
     }
-}
+}*/

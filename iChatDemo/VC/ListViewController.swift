@@ -174,11 +174,16 @@ extension ListViewController {
         collectionViewDataSource?.supplementaryViewProvider = {
             (collectionView, kind, indexPath) in
             
-            guard let headerSection = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionViewSectionHeader.reuseId, for: indexPath) as? CollectionViewSectionHeader else {
+            guard let headerSection = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                      withReuseIdentifier: CollectionViewSectionHeader.reuseId,
+                                                                                      for: indexPath) as? CollectionViewSectionHeader else {
                 fatalError("Unknown section")
             }
-            guard let section = CollectionViewSection(rawValue: indexPath.section) else { fatalError("Unknown section") }
-            headerSection.configure(title: section.description(), font: .laoSangmanFont(), textColor: .systemGray)
+            guard let section = CollectionViewSection(rawValue: indexPath.section) else {
+                fatalError("Unknown section")                
+            }
+            headerSection.configure(title: section.description(),
+                                    font: .laoSangmanFont(), textColor: .systemGray)
             
             return headerSection
         }

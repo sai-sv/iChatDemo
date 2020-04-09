@@ -72,8 +72,8 @@ extension ActiveChatCell: CollectionViewCellProtocol {
     func configure<U: Hashable>(with data: U) {
         guard let model = data as? ChatModel else { return }
         
-        photoView.image = UIImage(named: model.userImageString)
-        nameLabel.text = model.username
+        photoView.image = UIImage(named: model.friendAvatarStringURL)
+        nameLabel.text = model.friendUsername
         lastMessageLabel.text = model.lastMessage
     }
 }

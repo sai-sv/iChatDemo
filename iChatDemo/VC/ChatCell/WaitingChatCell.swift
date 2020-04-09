@@ -46,7 +46,7 @@ extension WaitingChatCell: CollectionViewCellProtocol {
     
     func configure<U: Hashable>(with data: U) {
         guard let model = data as? ChatModel else { return }
-        photoImageView.image = UIImage(named: model.userImageString)
+        photoImageView.image = UIImage(named: model.friendAvatarStringURL)
     }
 }
 

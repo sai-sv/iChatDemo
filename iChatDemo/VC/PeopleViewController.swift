@@ -63,6 +63,8 @@ class PeopleViewController: UIViewController {
                 self.showAlert(title: "Ошибка!", message: error.localizedDescription)
             }
         })
+        
+        collectionView.delegate = self
     }
     
     private func setupSignOutItem() {
@@ -125,6 +127,18 @@ extension PeopleViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+extension PeopleViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let userModel = self.collectionViewDataSource.itemIdentifier(for: indexPath) else {
+            return
+        }
+        let profileVC = ProfileViewController(userModel: userModel)
+        self.present(profileVC, animated: true)
+    }
+}
+
 // MARK: - Collection View Layout
 extension PeopleViewController {
     
@@ -179,7 +193,8 @@ extension PeopleViewController {
     
     private func collectionViewData() {
         // items
-        collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemData) -> UICollectionViewCell? in
+        collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
+                                                                      cellProvider: { (collectionView, indexPath, itemData) -> UICollectionViewCell? in
             
             guard let section = CollectionViewSection(rawValue: indexPath.section) else {
                 fatalError("Unknown section")
@@ -193,7 +208,9 @@ extension PeopleViewController {
         
         // header
         collectionViewDataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
-            guard let headerSection = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionViewSectionHeader.reuseId, for: indexPath) as? CollectionViewSectionHeader else {
+            guard let headerSection = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                      withReuseIdentifier: CollectionViewSectionHeader.reuseId,
+                                                                                      for: indexPath) as? CollectionViewSectionHeader else {
                 fatalError("Unknown section")
             }
             
@@ -201,7 +218,8 @@ extension PeopleViewController {
                 fatalError("Unknown section")
             }
             let items = self.collectionViewDataSource.snapshot().itemIdentifiers(inSection: .Users)
-            headerSection.configure(title: section.description(usersCount: items.count), font: .systemFont(ofSize: 36, weight: .light), textColor: .label)
+            headerSection.configure(title: section.description(usersCount: items.count),
+                                    font: .systemFont(ofSize: 36, weight: .light), textColor: .label)
             return headerSection
         }
     }
