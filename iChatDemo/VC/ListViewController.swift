@@ -62,7 +62,7 @@ class ListViewController: UIViewController {
                                                                  completion: { (result) in
             switch result {
             case .success(let chatsModel):
-                if self.waitingChatsModel.isEmpty, self.waitingChatsModel.count <= chatsModel.count {
+                if !self.waitingChatsModel.isEmpty, self.waitingChatsModel.count <= chatsModel.count {
                     let requestVC = ChatRequestViewController(chatModel: chatsModel.last!)
                     requestVC.delegate = self
                     self.present(requestVC, animated: true, completion: nil)
@@ -258,7 +258,8 @@ extension ListViewController: UICollectionViewDelegate {
             requestVC.delegate = self
             self.present(requestVC, animated: true, completion: nil)
         case .ActiveChats:
-            print(#function)
+            let chatVC = ChatsVirewControrller(userModel: self.currentUser, chatModel: chatModel)
+            navigationController?.pushViewController(chatVC, animated: true)
         }
     }
 }
