@@ -30,6 +30,7 @@
 		8417129A242F49ED00E74708 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84171299242F49ED00E74708 /* UIImage + Extension.swift */; };
 		8417129C242F894C00E74708 /* StorageListner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417129B242F894C00E74708 /* StorageListner.swift */; };
 		8417129E243A2BE900E74708 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417129D243A2BE900E74708 /* MessageModel.swift */; };
+		841712A02441A5B300E74708 /* WaitingChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417129F2441A5B300E74708 /* WaitingChatNavigation.swift */; };
 		842F0F7824195407002C2D1A /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F0F7724195407002C2D1A /* ListViewController.swift */; };
 		842F0F7B2419547D002C2D1A /* PeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F0F7A2419547D002C2D1A /* PeopleViewController.swift */; };
 		842F0F7D241954C4002C2D1A /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F0F7C241954C4002C2D1A /* MainTabBarController.swift */; };
@@ -87,6 +88,7 @@
 		84171299242F49ED00E74708 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		8417129B242F894C00E74708 /* StorageListner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageListner.swift; sourceTree = "<group>"; };
 		8417129D243A2BE900E74708 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		8417129F2441A5B300E74708 /* WaitingChatNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingChatNavigation.swift; sourceTree = "<group>"; };
 		842F0F7724195407002C2D1A /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		842F0F7A2419547D002C2D1A /* PeopleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleViewController.swift; sourceTree = "<group>"; };
 		842F0F7C241954C4002C2D1A /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				84DA6A1E242D3ECC003D44CE /* AuthVCRoutingDelegate.swift */,
+				8417129F2441A5B300E74708 /* WaitingChatNavigation.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				842F0F7824195407002C2D1A /* ListViewController.swift in Sources */,
+				841712A02441A5B300E74708 /* WaitingChatNavigation.swift in Sources */,
 				8416D13A2417FA7A009C6527 /* OneLineTextField.swift in Sources */,
 				8416D12B2417A9BA009C6527 /* UIFont + Extension.swift in Sources */,
 				8416D118241513FA009C6527 /* AuthViewController.swift in Sources */,

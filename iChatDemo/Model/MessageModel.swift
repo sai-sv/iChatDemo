@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 struct MessageModel {
     var senderName: String
@@ -19,6 +20,20 @@ struct MessageModel {
         sentDate = Date()
         self.content = content
         senderId = user.id
+    }
+    
+    init?(document: QueryDocumentSnapshot) {
+        let data = document.data()
+        guard let senderName = data["senderName"] as? String,
+            let sentDate = data["sentDate"] as? Timestamp,
+            let content = data["content"] as? String,
+            let senderId = data["senderId"] as? String else {
+                return nil
+        }
+        self.senderName = senderName
+        self.sentDate = sentDate.dateValue()
+        self.content = content
+        self.senderId = senderId
     }
     
     func representation() -> [String: Any] {

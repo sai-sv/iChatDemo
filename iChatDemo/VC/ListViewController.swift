@@ -7,17 +7,25 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class ListViewController: UIViewController {
     
-    private let activeChatasModel: [ChatModel] = [] // = Bundle.main.decode([ChatModel].self, from: "activeChats.json")
-    private let waitingChatsModel: [ChatModel] = [] // = Bundle.main.decode([ChatModel].self, from: "waitingChats.json")
+    private var activeChatsModel: [ChatModel] = [] // = Bundle.main.decode([ChatModel].self, from: "activeChats.json")
+    private var waitingChatsModel: [ChatModel] = [] // = Bundle.main.decode([ChatModel].self, from: "waitingChats.json")
     
     private var currentUser: UserModel
+    private var waitingChatsListner: ListenerRegistration?
+    private var activeChatsListner: ListenerRegistration?
     
     init(currentUser: UserModel) {
         self.currentUser = currentUser
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    deinit {
+        waitingChatsListner?.remove()
+        activeChatsListner?.remove()
     }
     
     required init?(coder: NSCoder) {
@@ -47,7 +55,39 @@ class ListViewController: UIViewController {
         
         setupCollectionView()
         collectionViewItemData()
-        reloadCollectionViewData()
+        
+        // waiting chat's obbserver
+        waitingChatsListner = StorageListner.shared.observeChats(chatType: .WaitingChat,
+                                                                 chats: waitingChatsModel,
+                                                                 completion: { (result) in
+            switch result {
+            case .success(let chatsModel):
+                if self.waitingChatsModel.isEmpty, self.waitingChatsModel.count <= chatsModel.count {
+                    let requestVC = ChatRequestViewController(chatModel: chatsModel.last!)
+                    requestVC.delegate = self
+                    self.present(requestVC, animated: true, completion: nil)
+                }
+                self.waitingChatsModel = chatsModel
+                self.reloadCollectionViewData()
+            case .failure(let error):
+                self.showAlert(title: "Ошибка!", message: error.localizedDescription)
+                return
+            }
+        })
+        
+        // active chat's observer
+        activeChatsListner = StorageListner.shared.observeChats(chatType: .ActiveChat,
+                                                                 chats: activeChatsModel,
+                                                                 completion: { (result) in
+            switch result {
+            case .success(let chatsModel):
+                self.activeChatsModel = chatsModel
+                self.reloadCollectionViewData()
+            case .failure(let error):
+                self.showAlert(title: "Ошибка!", message: error.localizedDescription)
+                return
+            }
+        })
     }
     
     private func setupSearchBar() {
@@ -84,6 +124,8 @@ class ListViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
+        collectionView.delegate = self
     }
 }
 
@@ -193,9 +235,31 @@ extension ListViewController {
         var snapshot = NSDiffableDataSourceSnapshot<CollectionViewSection, ChatModel>()
         snapshot.appendSections([.WaitingChats, .ActiveChats])
         snapshot.appendItems(waitingChatsModel, toSection: .WaitingChats)
-        snapshot.appendItems(activeChatasModel, toSection: .ActiveChats)
+        snapshot.appendItems(activeChatsModel, toSection: .ActiveChats)
         
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension ListViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let chatModel = self.collectionViewDataSource?.itemIdentifier(for: indexPath) else {
+            return
+        }
+        guard let section = CollectionViewSection(rawValue: indexPath.section) else {
+            return
+        }
+        
+        switch section {
+        case .WaitingChats:
+            let requestVC = ChatRequestViewController(chatModel: chatModel)
+            requestVC.delegate = self
+            self.present(requestVC, animated: true, completion: nil)
+        case .ActiveChats:
+            print(#function)
+        }
     }
 }
 
@@ -203,6 +267,34 @@ extension ListViewController {
 extension ListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(#function)
+    }
+}
+
+// MARK: - WaitingChatNavigation
+extension ListViewController: WaitingChatNavigation {
+    
+    func acceptRequest(chatModel: ChatModel) {
+        FirestoreService.shared.changeToActive(chatModel: chatModel) { (result) in
+            switch result {
+            case .failure(let error):
+                self.showAlert(title: "Ошибка!", message: error.localizedDescription)
+            case .success:
+                self.showAlert(title: "Успешно", message: "Заявка от \(chatModel.friendUsername) успешно принята")
+            }
+        }
+    }
+    
+    func denyRequest(chatModel: ChatModel) {
+        print(#function)
+        FirestoreService.shared.deleteChat(chatModel: chatModel) { (result) in
+            switch result {
+            case .failure(let error):
+                self.showAlert(title: "Ошибка!", message: error.localizedDescription)
+                return
+            case .success:
+                print(#function + "waitng chats successfully deleted!")
+            }
+        }
     }
 }
 

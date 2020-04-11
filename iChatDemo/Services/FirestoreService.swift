@@ -34,11 +34,11 @@ class FirestoreService {
         }
         
         var userModel = UserModel(id: id,
-                             email: email,
-                             username: username!,
-                             gender: gender!,
-                             description: description!,
-                             avatarStringURL: "no photo")
+                                  email: email,
+                                  username: username!,
+                                  gender: gender!,
+                                  description: description!,
+                                  avatarStringURL: "no photo")
         
         StorageService.shared.upload(image: photo) { (result) in
             switch result {
@@ -89,9 +89,9 @@ class FirestoreService {
         let messageModel = MessageModel(user: currentUser, content: message)
         
         let chatModel = ChatModel(friendUsername: currentUser.username,
-                             friendAvatarStringURL: currentUser.avatarStringURL,
-                             lastMessage: messageModel.content,
-                             friendId: currentUser.id)
+                                  friendAvatarStringURL: currentUser.avatarStringURL,
+                                  lastMessage: messageModel.content,
+                                  friendId: currentUser.id)
         waitingChatsRef.document(currentUser.id).setData(chatModel.representation()) { (error) in
             if let error = error {
                 completion(.failure(error))
@@ -105,7 +105,97 @@ class FirestoreService {
                 completion(.success(Void()))
             }
         }
+    }
+    
+    func deleteChat(chatModel: ChatModel, completion: @escaping (Result<Void, Error>) -> Void) {
+        let waitingChatsRef = db.collection(["users", currentUser.id, "waitingChats"].joined(separator: "/"))
+        let messagesRef = waitingChatsRef.document(chatModel.friendId).collection("messages")
         
+        // first of all delete all messages
+        messagesRef.getDocuments { (snapshot, error) in
+            guard let snapshot = snapshot else {
+                completion(.failure(error!))
+                return
+            }
+            for message in snapshot.documents {
+                messagesRef.document(message.documentID).delete { (error) in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                }
+            } // for_each msg
+        }
         
+        // delete waitingChat
+        waitingChatsRef.document(chatModel.friendId).delete { (error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+        }
+        completion(.success(Void()))
+    }
+    
+    func changeToActive(chatModel: ChatModel, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        let activeChatsRef = db.collection(["users", currentUser.id, "activeChats"].joined(separator: "/"))
+        let messagesRef = activeChatsRef.document(chatModel.friendId).collection("messages")
+        
+        getWaitingChatMessages(friendId: chatModel.friendId) { (result) in
+            
+            switch result {
+            case .success(let messages):
+                self.deleteChat(chatModel: chatModel) { (result) in
+                    switch result {
+                    case .success:
+                        
+                        activeChatsRef.document(chatModel.friendId).setData(chatModel.representation()) { (error) in
+                            if let error = error {
+                                completion(.failure(error))
+                                return
+                            }
+                            
+                            // add all messages to collection
+                            for messageModel in messages {
+                                messagesRef.addDocument(data: messageModel.representation()) { (error) in
+                                    if let error = error {
+                                        completion(.failure(error))
+                                        return
+                                    }
+                                }
+                            }
+                        } // add active chat to collection
+                        
+                        completion(.success(Void()))
+                        
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                } // deleteChat
+            case .failure(let error):
+                completion(.failure(error))
+            } // getWaitingChatMessages
+        }
+    }
+    
+    private func getWaitingChatMessages(friendId: String, completion: @escaping (Result<[MessageModel], Error>) -> Void) {
+        let waitingChatsRef = db.collection(["users", currentUser.id, "waitingChats"].joined(separator: "/"))
+        let messagesRef = waitingChatsRef.document(friendId).collection("messages")
+        
+        messagesRef.getDocuments { (snapshot, error) in
+            guard let snapshot = snapshot else {
+                completion(.failure(error!))
+                return
+            }
+            var messages: [MessageModel] = []
+            for message in snapshot.documents {
+                guard let message = MessageModel(document: message) else {
+                    return
+                }
+                messages.append(message)
+            }
+            completion(.success(messages))
+        }
     }
 }

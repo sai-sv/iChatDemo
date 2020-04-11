@@ -75,6 +75,7 @@ extension ActiveChatCell: CollectionViewCellProtocol {
         photoView.image = UIImage(named: model.friendAvatarStringURL)
         nameLabel.text = model.friendUsername
         lastMessageLabel.text = model.lastMessage
+        photoView.sd_setImage(with: URL(string: model.friendAvatarStringURL), completed: nil)
     }
 }
 

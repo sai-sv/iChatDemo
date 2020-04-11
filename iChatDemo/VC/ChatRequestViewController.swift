@@ -17,6 +17,36 @@ class ChatRequestViewController: UIViewController {
     private var denyButton = UIButton(title: "DENY", titleColor: #colorLiteral(red: 0.8352941176, green: 0.2, blue: 0.2, alpha: 1), backgroundColor: .whiteColor, isShadow: false, cornerRadius: 10)
     private var containerView = UIView()
     
+    private let chatModel: ChatModel
+    weak var delegate: WaitingChatNavigation?
+    
+    init(chatModel: ChatModel) {
+        self.chatModel = chatModel
+        self.imageView.sd_setImage(with: URL(string: chatModel.friendAvatarStringURL), completed: nil)
+        self.usernameLabel.text = chatModel.friendUsername
+        
+        super.init(nibName: nil, bundle: nil)
+        
+        acceptButton.addTarget(self, action: #selector(acceptButtonAction), for: .touchUpInside)
+        denyButton.addTarget(self, action: #selector(denyButtonAction), for: .touchUpInside)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func acceptButtonAction() {
+        self.dismiss(animated: true) {
+            self.delegate?.acceptRequest(chatModel: self.chatModel)
+        }
+    }
+    
+    @objc private func denyButtonAction() {
+        self.dismiss(animated: true) {
+            self.delegate?.denyRequest(chatModel: self.chatModel)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,7 +113,7 @@ class ChatRequestViewController: UIViewController {
 
 
 // MARK: - SwiftUI
-import SwiftUI
+/*import SwiftUI
 
 struct ChatRequestVCProvider: PreviewProvider {
     typealias ProviderType = ChatRequestVCProvider
@@ -104,4 +134,4 @@ struct ChatRequestVCProvider: PreviewProvider {
         func updateUIViewController(_ uiViewController: ProviderType.ContainerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ProviderType.ContainerView>) {
         }
     }
-}
+}*/

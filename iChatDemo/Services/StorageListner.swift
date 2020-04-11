@@ -12,6 +12,11 @@ import FirebaseFirestore
 
 class StorageListner {
     
+    enum ChatType {
+        case WaitingChat
+        case ActiveChat
+    }
+    
     static let shared = StorageListner()
     
     private let db = Firestore.firestore()
@@ -50,9 +55,47 @@ class StorageListner {
                 }
             }
             completion(.success(users))
-            
         } // addSnapshotListner
         
+        return listner
+    }
+    
+    func observeChats(chatType: ChatType, chats: [ChatModel], completion: @escaping (Result<[ChatModel], Error>) -> Void) -> ListenerRegistration {
+        
+        var chats = chats        
+        let chatName = chatType == .WaitingChat ? "waitingChats" : "activeChats"
+        let chatsRef = db.collection(["users", Auth.auth().currentUser!.uid, chatName].joined(separator: "/"))
+        
+        let listner = chatsRef.addSnapshotListener { (snapshot, error) in
+            guard let snapshot = snapshot else {
+                completion(.failure(error!))
+                return
+            }
+            
+            snapshot.documentChanges.forEach({ (documentChange) in
+                
+                guard let chatModel = ChatModel(document: documentChange.document) else {
+                    return
+                }
+                
+                switch documentChange.type {
+                    
+                case .added:
+                    if !chats.contains(chatModel) {
+                        chats.append(chatModel)
+                    }
+                case .modified:
+                    if let index = chats.firstIndex(of: chatModel) {
+                        chats[index] = chatModel
+                    }
+                case .removed:
+                    if let index = chats.firstIndex(of: chatModel) {
+                        chats.remove(at: index)
+                    }
+                }
+            })
+            completion(.success(chats))
+        } // addSnapshotListner
         return listner
     }
 }
