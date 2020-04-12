@@ -23,6 +23,9 @@ class StorageListner {
     private var usersRef: CollectionReference  {
         return db.collection("users")
     }
+    private var currentUserId: String {
+        return Auth.auth().currentUser!.uid
+    }
     
     func observe(users: [UserModel], completion: @escaping (Result<[UserModel], Error>) -> Void) -> ListenerRegistration {
         
@@ -64,7 +67,7 @@ class StorageListner {
         
         var chats = chats        
         let chatName = chatType == .WaitingChat ? "waitingChats" : "activeChats"
-        let chatsRef = db.collection(["users", Auth.auth().currentUser!.uid, chatName].joined(separator: "/"))
+        let chatsRef = db.collection(["users", currentUserId, chatName].joined(separator: "/"))
         
         let listner = chatsRef.addSnapshotListener { (snapshot, error) in
             guard let snapshot = snapshot else {
@@ -98,4 +101,31 @@ class StorageListner {
         } // addSnapshotListner
         return listner
     }
+    
+    func messageObserve(chatModel: ChatModel, completion: @escaping (Result<MessageModel, Error>) -> Void) -> ListenerRegistration {
+        let ref = usersRef.document(currentUserId).collection("activeChats").document(chatModel.friendId).collection("messages")
+        
+        let listner = ref.addSnapshotListener { (snapshot, error) in
+            guard let snapshot = snapshot else {
+                completion(.failure(error!))
+                return
+            }
+            
+            snapshot.documentChanges.forEach { (documentChange) in
+                guard let messageModel = MessageModel(document: documentChange.document) else {
+                    return
+                }
+                switch documentChange.type {
+                case .added:
+                    completion(.success(messageModel))
+                case .modified:
+                    break
+                case .removed:
+                    break
+                }
+            } // for each document change
+        }
+        return listner
+    }
 }
+ 

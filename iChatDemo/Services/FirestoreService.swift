@@ -172,7 +172,7 @@ class FirestoreService {
                     case .failure(let error):
                         completion(.failure(error))
                     }
-                } // deleteChat
+            } // deleteChat
             case .failure(let error):
                 completion(.failure(error))
             } // getWaitingChatMessages
@@ -197,5 +197,44 @@ class FirestoreService {
             }
             completion(.success(messages))
         }
+    }
+    
+    func sendMessage(chatModel: ChatModel, message: MessageModel, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        
+        let receiverActiveChatsRef = usersRef.document(chatModel.friendId).collection("activeChats").document(currentUser.id)
+        let recieverMessagesRef = receiverActiveChatsRef.collection("messages")
+        
+        let myMessagesRef = usersRef
+            .document(currentUser.id).collection("activeChats")
+            .document(chatModel.friendId).collection("messages")
+        
+        let chatModel = ChatModel(friendUsername: currentUser.username,
+                                  friendAvatarStringURL: currentUser.avatarStringURL,
+                                  lastMessage: message.content,
+                                  friendId: currentUser.id)
+        
+        // add active chat data
+        receiverActiveChatsRef.setData(chatModel.representation()) { (error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            // add message to reciver
+            recieverMessagesRef.addDocument(data: message.representation()) { (error) in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                // add myself message
+                myMessagesRef.addDocument(data: message.representation()) { (error) in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    completion(.success(Void()))
+                }
+            } // add message to receiver
+        } // add active chat data
     }
 }
